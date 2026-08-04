@@ -68,6 +68,14 @@ struct nvme_tcp_hdr {
 	__le32	plen;
 };
 
+struct ntprof_stat{
+	__u64 id;
+	__u8 tag;
+	__u8 cnt;
+	__u8 event[10];
+	__u64 ts[10];
+};
+
 /**
  * struct nvme_tcp_icreq_pdu - nvme tcp initialize connection request pdu
  *
@@ -84,6 +92,7 @@ struct nvme_tcp_icreq_pdu {
 	__u8			digest;
 	__le32			maxr2t;
 	__u8			rsvd2[112];
+	struct ntprof_stat stat;
 };
 
 /**
@@ -102,6 +111,7 @@ struct nvme_tcp_icresp_pdu {
 	__u8			digest;
 	__le32			maxdata;
 	__u8			rsvd[112];
+	struct ntprof_stat stat;
 };
 
 /**
@@ -117,6 +127,7 @@ struct nvme_tcp_term_pdu {
 	__le16			feil;
 	__le16			feiu;
 	__u8			rsvd[10];
+	struct ntprof_stat stat;
 };
 
 /**
@@ -128,6 +139,7 @@ struct nvme_tcp_term_pdu {
 struct nvme_tcp_cmd_pdu {
 	struct nvme_tcp_hdr	hdr;
 	struct nvme_command	cmd;
+	struct ntprof_stat stat;
 };
 
 /**
@@ -140,6 +152,7 @@ struct nvme_tcp_cmd_pdu {
 struct nvme_tcp_rsp_pdu {
 	struct nvme_tcp_hdr	hdr;
 	struct nvme_completion	cqe;
+	struct ntprof_stat stat;
 };
 
 /**
@@ -158,6 +171,7 @@ struct nvme_tcp_r2t_pdu {
 	__le32			r2t_offset;
 	__le32			r2t_length;
 	__u8			rsvd[4];
+	struct ntprof_stat stat;
 };
 
 /**
@@ -176,6 +190,7 @@ struct nvme_tcp_data_pdu {
 	__le32			data_offset;
 	__le32			data_length;
 	__u8			rsvd[4];
+	struct ntprof_stat stat;
 };
 
 union nvme_tcp_pdu {
